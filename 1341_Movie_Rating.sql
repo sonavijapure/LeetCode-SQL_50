@@ -14,7 +14,7 @@ select results from (
 with movie_rate as (select mr.movie_id,mv.title ,
 avg(mr.rating) over(partition by mr.movie_id order by mr.movie_id) avg_rate
 from movierating mr  join movies mv on mr.movie_id = mv.movie_id
-where extract(month from mr.created_at) = 2)
+where extract(month from mr.created_at) = 2 and extract(year from mr.created_at) = 2020)
 select title results,ROW_NUMBER() OVER (order by title asc) rn from movie_rate
 where avg_rate = (select max(avg_rate) from movie_rate))where rn = 1
 ;
